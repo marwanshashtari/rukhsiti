@@ -28,3 +28,14 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Instructor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='instructor_profile')
+    experience_years = models.PositiveIntegerField()
+    car_type = models.CharField(max_length=50)
+    price_per_hour = models.DecimalField(max_digits=6, decimal_places=2)
+    city = models.CharField(max_length=100)
+    is_available = models.BooleanField(default=True)
+    def __str__(self):
+        return f"Instructor: {self.user.username}"

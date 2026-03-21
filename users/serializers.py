@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, Instructor
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -70,3 +70,29 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
             "license_status",
             "created_at",
         ]
+
+
+class InstructorSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    phone_number = serializers.CharField(source='user.profile.phone_number', read_only=True)
+    national_id = serializers.CharField(source='user.profile.national_id', read_only=True)
+    date_of_birth = serializers.DateField(source='user.profile.date_of_birth', read_only=True)
+    license_status = serializers.CharField(source='user.profile.license_status', read_only=True)
+
+    class Meta:
+        model = Instructor
+        fields = [
+            'id',
+            'user',
+            'username',
+            'phone_number',
+            'national_id',
+            'date_of_birth',
+            'license_status',
+            'experience_years',
+            'car_type',
+            'price_per_hour',
+            'city',
+            'is_available',
+        ]
+        read_only_fields = ['id', 'user', 'username']
